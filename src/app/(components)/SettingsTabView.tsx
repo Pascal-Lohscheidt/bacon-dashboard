@@ -15,7 +15,7 @@ const categories = [
     content: () => <>TBD</>,
   },
   {
-    name: 'Other 1',
+    name: 'Cluster',
     content: () => <>TBD</>,
   },
 ];
