@@ -12,7 +12,7 @@ function mapToEndPoint(view: string, mapMode: MapMode): string {
     Standard: 'gps',
     Heatmap: 'heatmap',
     Track: 'tracking',
-    'Other 1': 'other1',
+    Cluster: 'cluster',
   };
   const mapModeMapper: { [key in MapMode]: string } = {
     'ESRI Satellite': 'esri-satellite',
