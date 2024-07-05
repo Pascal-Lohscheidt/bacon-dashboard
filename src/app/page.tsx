@@ -5,6 +5,7 @@ import SettingsTabView from './(components)/SettingsTabView';
 import Select from './(components)/Select';
 import Button from './(components)/Button';
 import { DateTime } from 'luxon';
+import ComboBox from './(components)/ComboBox';
 
 type MapMode = 'ESRI Satellite' | 'Open Streets';
 
@@ -100,28 +101,12 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="col-span-1 col-start-1 row-start-2 row-span-1 p-4">
-          <div className="w-full h-full backdrop-blur-md bg-gray-200/40 rounded-md p-4">
+        <div className="col-span-1 col-start-1 row-start-2 row-span-1 p-4 h-full overflow-hidden">
+          <div className="w-full h-full overflow-hidden backdrop-blur-md bg-gray-200/40 rounded-md p-4">
             <SettingsTabView tabs={tabs} setSelectedView={setSelectedView} />
           </div>
         </div>
       </div>
-
-      {/*
-      <div className="w-full h-[700px] grid grid-cols-main-grid gap-4 grid-rows-main-grid">
-        <iframe
-          src="https://nodered.caps-platform.de/gps/"
-          className=" w-full h-full rounded-md col-span-1 col-start-1 row-span-1 row-start-1"
-          title="Embedded Page"
-        />
-
-        <iframe
-          src="https://nodered.caps-platform.de/gps"
-          className="w-full h-full rounded-md col-span-1 col-start-2 row-span-1 row-start-1"
-          title="Embedded Page"
-        />
-      </div>
-*/}
     </main>
   );
 }
@@ -132,6 +117,16 @@ async function zoomInN6() {
 
 async function refreshMap() {
   await fetch('https://nodered.caps-platform.de/refresh');
+}
+
+async function setFilteredMac(mac: string) {
+  await fetch('https://nodered.caps-platform.de/set-macs', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ macs: [mac] }),
+  });
 }
 
 const tabs = [
@@ -145,10 +140,39 @@ const tabs = [
   },
   {
     name: 'Track',
-    content: () => <>TBD</>,
+    content: () => <TrackTab />,
   },
   {
     name: 'Cluster',
     content: () => <>TBD</>,
   },
 ];
+
+const TrackTab = () => {
+  const [macs, setMacs] = useState<string[]>([]);
+
+  useEffect(() => {
+    async function getMacs() {
+      const response = await fetch('https://nodered.caps-platform.de/get-macs');
+      const data = await response.json();
+      console.log(data);
+
+      setMacs(data.macs);
+    }
+    getMacs();
+  }, []);
+
+  return (
+    <div className="w-full overflow-scroll h-full">
+      <div className="flex flex-col space-y-2">
+        <label className="font-semibold text-slate-800">Macs to track</label>
+        <ComboBox
+          onChange={({ id }) => {
+            setFilteredMac(id);
+          }}
+          items={macs.map((i) => ({ id: i, value: i }))}
+        />
+      </div>
+    </div>
+  );
+};

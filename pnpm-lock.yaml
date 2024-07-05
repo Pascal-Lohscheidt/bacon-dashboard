@@ -8,6 +8,9 @@ dependencies:
   '@headlessui/react':
     specifier: ^2.1.1
     version: 2.1.1(react-dom@18.3.1)(react@18.3.1)
+  '@heroicons/react':
+    specifier: ^2.1.4
+    version: 2.1.4(react@18.3.1)
   clsx:
     specifier: ^2.1.1
     version: 2.1.1
@@ -154,6 +157,14 @@ packages:
       '@tanstack/react-virtual': 3.5.0(react-dom@18.3.1)(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    dev: false
+
+  /@heroicons/react@2.1.4(react@18.3.1):
+    resolution: {integrity: sha512-ju0wj0wwrUTMQ2Yceyrma7TKuI3BpSjp+qKqV81K9KGcUHdvTMdiwfRc2cwXBp3uXtKuDZkh0v03nWOQnJFv2Q==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.3.1
     dev: false
 
   /@humanwhocodes/config-array@0.11.14:
