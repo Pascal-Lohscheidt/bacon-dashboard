@@ -76,6 +76,7 @@ export default function Home() {
             </h1>
 
             <div className="flex flex-row space-x-4 ml-auto pointer-events-auto">
+              <Button onClick={zoomInN6}>Refresh</Button>
               <Button onClick={zoomInN6}>Zoom In N6</Button>
               <Select
                 value={timeRange}
@@ -125,8 +126,12 @@ export default function Home() {
   );
 }
 
-function zoomInN6() {
-  fetch('https://nodered.caps-platform.de/find-n6');
+async function zoomInN6() {
+  await fetch('https://nodered.caps-platform.de/find-n6');
+}
+
+async function refreshMap() {
+  await fetch('https://nodered.caps-platform.de/refresh');
 }
 
 const tabs = [
