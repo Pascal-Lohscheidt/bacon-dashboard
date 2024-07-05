@@ -76,7 +76,7 @@ export default function Home() {
             </h1>
 
             <div className="flex flex-row space-x-4 ml-auto pointer-events-auto">
-              <Button onClick={zoomInN6}>Refresh</Button>
+              <Button onClick={refreshMap}>Refresh</Button>
               <Button onClick={zoomInN6}>Zoom In N6</Button>
               <Select
                 value={timeRange}
