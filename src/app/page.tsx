@@ -13,7 +13,7 @@ function mapToEndPoint(view: string, mapMode: MapMode): string {
   const viewModeMapper: { [key: string]: string } = {
     Standard: 'gps',
     Heatmap: 'heatmap',
-    Track: 'tracking',
+    Track: 'track',
     Cluster: 'cluster',
   };
   const mapModeMapper: { [key in MapMode]: string } = {
