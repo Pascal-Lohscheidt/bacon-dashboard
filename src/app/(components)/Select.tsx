@@ -5,11 +5,18 @@ import { PropsWithChildren } from 'react';
 type Props = PropsWithChildren<{
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   className?: string;
+  value?: string;
 }>;
 
-export default function Select({ children, onChange, className }: Props) {
+export default function Select({
+  children,
+  onChange,
+  className,
+  value,
+}: Props) {
   return (
     <HeadlessSelect
+      value={value}
       onChange={onChange}
       className={clsx(
         'bg-slate-100 px-4 py-2 rounded-md border-2 border-slate-400',

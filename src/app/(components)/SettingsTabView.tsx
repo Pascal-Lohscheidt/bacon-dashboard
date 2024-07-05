@@ -1,37 +1,24 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import clsx from 'clsx';
 
-const categories = [
-  {
-    name: 'Standard',
-    content: () => <>TBD</>,
-  },
-  {
-    name: 'Heatmap',
-    content: () => <>TBD</>,
-  },
-  {
-    name: 'Track',
-    content: () => <>TBD</>,
-  },
-  {
-    name: 'Cluster',
-    content: () => <>TBD</>,
-  },
-];
+type Tab = {
+  name: string;
+  content: () => JSX.Element;
+};
 
 type Props = {
   setSelectedView: (view: string) => void;
+  tabs: Array<Tab>;
 };
 
-export default function SettingsTabView({ setSelectedView }: Props) {
+export default function SettingsTabView({ setSelectedView, tabs }: Props) {
   return (
     <TabGroup
       className="w-full h-full text-slate-600 pointer-events-auto"
-      onChange={(index) => setSelectedView(categories[index].name)}
+      onChange={(index) => setSelectedView(tabs[index].name)}
     >
       <TabList className="flex flex-wrap gap-4 bg-slate-100 rounded-md p-2">
-        {categories.map(({ name }) => (
+        {tabs.map(({ name }) => (
           <Tab
             key={name}
             className={clsx(
@@ -45,7 +32,7 @@ export default function SettingsTabView({ setSelectedView }: Props) {
         ))}
       </TabList>
       <TabPanels className="mt-3">
-        {categories.map(({ name, content: Content }) => (
+        {tabs.map(({ name, content: Content }) => (
           <TabPanel key={name} className="p-3">
             <Content />
           </TabPanel>
