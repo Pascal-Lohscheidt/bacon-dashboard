@@ -3,9 +3,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import SettingsTabView from './(components)/SettingsTabView';
 import Select from './(components)/Select';
-import Button from './(components)/Button';
+// import Button from './(components)/Button';
 import { DateTime } from 'luxon';
 import ComboBox from './(components)/ComboBox';
+import useSWR from 'swr';
 
 type MapMode = 'ESRI Satellite' | 'Open Streets';
 
@@ -77,8 +78,10 @@ export default function Home() {
             </h1>
 
             <div className="flex flex-row space-x-4 ml-auto pointer-events-auto">
+              {/* 
               <Button onClick={refreshMap}>Refresh</Button>
               <Button onClick={zoomInN6}>Zoom In N6</Button>
+              */}
               <Select
                 value={timeRange}
                 onChange={(event) => setTimeRange(event.target.value)}
@@ -89,6 +92,7 @@ export default function Home() {
                 <option value="30min">30 min</option>
                 <option value="60min">1h</option>
                 <option value="240min">4h</option>
+                <option value="720min">12h</option>
                 <option value="all">All</option>
               </Select>
               <Select
@@ -132,11 +136,11 @@ async function setFilteredMac(mac: string) {
 const tabs = [
   {
     name: 'Standard',
-    content: () => <>TBD</>,
+    content: () => <></>,
   },
   {
     name: 'Heatmap',
-    content: () => <>TBD</>,
+    content: () => <></>,
   },
   {
     name: 'Track',
@@ -144,7 +148,7 @@ const tabs = [
   },
   {
     name: 'Cluster',
-    content: () => <>TBD</>,
+    content: () => <ClusterTab />,
   },
 ];
 
@@ -163,7 +167,7 @@ const TrackTab = () => {
   }, []);
 
   return (
-    <div className="w-full overflow-scroll h-full">
+    <div className="w-full h-full">
       <div className="flex flex-col space-y-2">
         <label className="font-semibold text-slate-800">Macs to track</label>
         <ComboBox
@@ -173,6 +177,37 @@ const TrackTab = () => {
           items={macs.map((i) => ({ id: i, value: i }))}
         />
       </div>
+    </div>
+  );
+};
+
+const ClusterTab = () => {
+  const { data: peopleCount, isLoading } = useSWR(
+    '/get-people-count',
+    async (key) => {
+      const response = await fetch(`https://nodered.caps-platform.de${key}`);
+      return (await response.json()).count;
+    },
+    {
+      refreshInterval: 1000,
+    }
+  );
+
+  return (
+    <div className="w-full overflow-scroll h-full">
+      {isLoading && (
+        <span className="text-slate-600">Fetching people count...</span>
+      )}
+      {!isLoading && (
+        <div className="flex flex-col space-y-2">
+          <span className="text-slate-800 font-semibold">
+            People count: {peopleCount}{' '}
+          </span>
+          <span className="text-slate-600">
+            (Last updated: {DateTime.now().toFormat('HH:mm')})
+          </span>
+        </div>
+      )}
     </div>
   );
 };
