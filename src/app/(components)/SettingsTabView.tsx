@@ -31,7 +31,7 @@ export default function SettingsTabView({ setSelectedView, tabs }: Props) {
           </Tab>
         ))}
       </TabList>
-      <TabPanels className="mt-3 overflow-scroll">
+      <TabPanels className="mt-3 overflow-hidden">
         {tabs.map(({ name, content: Content }) => (
           <TabPanel key={name} className="p-3">
             <Content />

@@ -7,6 +7,7 @@ import Select from './(components)/Select';
 import { DateTime } from 'luxon';
 import ComboBox from './(components)/ComboBox';
 import useSWR from 'swr';
+import InfoBox from './(components)/InfoBox';
 
 type MapMode = 'ESRI Satellite' | 'Open Streets';
 
@@ -93,7 +94,7 @@ export default function Home() {
                 <option value="60min">1h</option>
                 <option value="240min">4h</option>
                 <option value="720min">12h</option>
-                <option value="all">All</option>
+                {/* <option value="all">All</option> */}
               </Select>
               <Select
                 onChange={(event) => setMapMode(event.target.value as MapMode)}
@@ -136,11 +137,34 @@ async function setFilteredMac(mac: string) {
 const tabs = [
   {
     name: 'Standard',
-    content: () => <></>,
+    content: () => (
+      <div className="w-full h-full flex flex-col space-y-4">
+        <InfoBox
+          title={<h1 className="text-lg font-bold text-teal-800">Hint:</h1>}
+        >
+          <p className="text-mg text-teal-800">
+            Some text that explains our tracking feature.
+          </p>
+        </InfoBox>
+      </div>
+    ),
   },
   {
     name: 'Heatmap',
-    content: () => <></>,
+    content: () => (
+      <div className="w-full h-full flex flex-col space-y-4">
+        {' '}
+        <InfoBox
+          title={<h1 className="text-lg font-bold text-teal-800">Hint:</h1>}
+        >
+          <p className="text-mg text-teal-800">
+            The heatmap visualizes the amount of beacon signals received near a
+            node within a specific time frame. The more signals there are, the
+            more intense the color will be.
+          </p>
+        </InfoBox>
+      </div>
+    ),
   },
   {
     name: 'Track',
@@ -167,7 +191,14 @@ const TrackTab = () => {
   }, []);
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full flex flex-col space-y-4">
+      <InfoBox
+        title={<h1 className="text-lg font-bold text-teal-800">Hint:</h1>}
+      >
+        <p className="text-mg text-teal-800">
+          Some text that explains our tracking feature.
+        </p>
+      </InfoBox>
       <div className="flex flex-col space-y-2">
         <label className="font-semibold text-slate-800">Macs to track</label>
         <ComboBox
