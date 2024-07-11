@@ -278,8 +278,7 @@ const ClusterTab = () => {
           traced by a specific trackable MAC address. A MAC address is
           considered trackable if it appears in at least three different nodes.
         </p>
-      </InfoBox>{' '}
-      ^
+      </InfoBox>
     </div>
   );
 };
