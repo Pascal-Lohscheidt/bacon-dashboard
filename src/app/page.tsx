@@ -258,17 +258,7 @@ const ClusterTab = () => {
   );
 
   return (
-    <div className="w-full overflow-scroll h-full">
-      {isLoading && (
-        <span className="text-slate-600">Fetching people count...</span>
-      )}
-      {!isLoading && (
-        <div className="flex flex-col space-y-2">
-          <span className="text-slate-800 font-semibold">
-            People count: {peopleCount}{' '}
-          </span>
-        </div>
-      )}
+    <div className="w-full overflow-scroll h-full flex flex-col space-y-4">
       <InfoBox
         title={<h1 className="text-lg font-bold text-teal-800">Hint:</h1>}
       >
@@ -279,6 +269,16 @@ const ClusterTab = () => {
           considered trackable if it appears in at least three different nodes.
         </p>
       </InfoBox>
+      {isLoading && (
+        <span className="text-slate-600">Fetching people count...</span>
+      )}
+      {!isLoading && (
+        <div className="flex flex-col space-y-2">
+          <span className="text-slate-800 font-semibold">
+            People count: {peopleCount}{' '}
+          </span>
+        </div>
+      )}
     </div>
   );
 };
