@@ -8,6 +8,7 @@ import { DateTime } from 'luxon';
 import ComboBox from './(components)/ComboBox';
 import useSWR from 'swr';
 import InfoBox from './(components)/InfoBox';
+import DatePicker from './(components)/DatePicker';
 
 type MapMode = 'ESRI Satellite' | 'Open Streets';
 
@@ -27,35 +28,14 @@ function mapToEndPoint(view: string, mapMode: MapMode): string {
 }
 
 export default function Home() {
+  const [startDate, setStartDate] = useState<DateTime>(
+    DateTime.fromISO('2024-07-11T16:30:00.000')
+  );
+  const [endDate, setEndDate] = useState<DateTime>(
+    DateTime.fromISO('2024-07-11T17:00:00.000')
+  );
   const [selectedView, setSelectedView] = useState<string>('Standard');
   const [mapMode, setMapMode] = useState<MapMode>('ESRI Satellite');
-  const [timeRange, setTimeRange] = useState<string>('15min');
-
-  useEffect(() => {
-    async function updateServerTimeRange() {
-      console.log('Updating time range');
-      let startDate = undefined;
-
-      if (timeRange !== 'all') {
-        startDate = DateTime.now()
-          .minus({ minutes: Number.parseInt(timeRange.replace('min', '')) })
-          .toISO();
-      }
-
-      await fetch(`https://nodered.caps-platform.de/set-date-range`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          startDate,
-          all: timeRange === 'all',
-        }),
-      });
-    }
-
-    updateServerTimeRange();
-  }, [timeRange]);
 
   const mapEndpoint = useMemo(
     () => mapToEndPoint(selectedView, mapMode),
@@ -82,7 +62,7 @@ export default function Home() {
               {/* 
               <Button onClick={refreshMap}>Refresh</Button>
               <Button onClick={zoomInN6}>Zoom In N6</Button>
-              */}
+            
               <Select
                 value={timeRange}
                 onChange={(event) => setTimeRange(event.target.value)}
@@ -94,8 +74,24 @@ export default function Home() {
                 <option value="60min">1h</option>
                 <option value="240min">4h</option>
                 <option value="720min">12h</option>
-                {/* <option value="all">All</option> */}
               </Select>
+              */}
+
+              <DatePicker
+                onChange={(date: DateTime) => {
+                  setStartDate(date);
+                  updateDateRange(date, endDate);
+                }}
+                value={startDate}
+              />
+
+              <DatePicker
+                onChange={(date: DateTime) => {
+                  setEndDate(date);
+                  updateDateRange(startDate, date);
+                }}
+                value={endDate}
+              />
               <Select
                 onChange={(event) => setMapMode(event.target.value as MapMode)}
               >
@@ -114,6 +110,22 @@ export default function Home() {
       </div>
     </main>
   );
+}
+
+async function updateDateRange(startDate: DateTime, endDate: DateTime) {
+  console.log('Transmitting startDate: ', startDate.toISO());
+  console.log('Transmitting endDate: ', endDate.toISO());
+
+  await fetch(`https://nodered.caps-platform.de/set-date-range`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      startDate: startDate.toISO(),
+      endDate: endDate.toISO(),
+    }),
+  });
 }
 
 async function zoomInN6() {
