@@ -9,6 +9,7 @@ import ComboBox from './(components)/ComboBox';
 import useSWR from 'swr';
 import InfoBox from './(components)/InfoBox';
 import DatePicker from './(components)/DatePicker';
+import Link from 'next/link';
 
 type MapMode = 'ESRI Satellite' | 'Open Streets';
 
@@ -58,7 +59,7 @@ export default function Home() {
               Beacon Dashboard - {selectedView}
             </h1>
 
-            <div className="flex flex-row space-x-4 ml-auto pointer-events-auto">
+            <div className="flex flex-row space-x-4 ml-auto pointer-events-auto items-center">
               {/* 
               <Button onClick={refreshMap}>Refresh</Button>
               <Button onClick={zoomInN6}>Zoom In N6</Button>
@@ -76,6 +77,23 @@ export default function Home() {
                 <option value="720min">12h</option>
               </Select>
               */}
+
+              <Link
+                replace
+                className="text-teal-400 font-semibold underline"
+                href={
+                  'https://kibana.caps-platform.de/s/chiemsee_space/app/dashboards#/view/1b470bd0-90d8-11ed-b6ae-7b8527ecb153'
+                }
+              >
+                Kibana Dashboard
+              </Link>
+              <Link
+                replace
+                className="text-teal-400 font-semibold underline"
+                href={'https://nodered.caps-platform.de/ui/'}
+              >
+                NodeRed Dashboard
+              </Link>
 
               <DatePicker
                 onChange={(date: DateTime) => {
