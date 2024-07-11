@@ -173,7 +173,8 @@ const tabs = [
           title={<h1 className="text-lg font-bold text-teal-800">Hint:</h1>}
         >
           <p className="text-mg text-teal-800">
-            Some text that explains our tracking feature.
+            Displays the positions of nodes and the probe requests sniffed by
+            each node during the selected time period.
           </p>
         </InfoBox>
       </div>
@@ -226,7 +227,9 @@ const TrackTab = () => {
         title={<h1 className="text-lg font-bold text-teal-800">Hint:</h1>}
       >
         <p className="text-mg text-teal-800">
-          Some text that explains our tracking feature.
+          Illustrates the path traced by a specific trackable MAC address. A MAC
+          address is considered trackable if it appears in at least three
+          different nodes.
         </p>
       </InfoBox>
       <div className="flex flex-col space-y-2">
@@ -264,11 +267,19 @@ const ClusterTab = () => {
           <span className="text-slate-800 font-semibold">
             People count: {peopleCount}{' '}
           </span>
-          <span className="text-slate-600">
-            (Last updated: {DateTime.now().toFormat('HH:mm')})
-          </span>
         </div>
       )}
+      <InfoBox
+        title={<h1 className="text-lg font-bold text-teal-800">Hint:</h1>}
+      >
+        <p className="text-mg text-teal-800">
+          Displays the positions of nodes and the probe requests sniffed by each
+          node during the selected time period. Track: Illustrates the path
+          traced by a specific trackable MAC address. A MAC address is
+          considered trackable if it appears in at least three different nodes.
+        </p>
+      </InfoBox>{' '}
+      ^
     </div>
   );
 };
